@@ -13,8 +13,8 @@ object DayThree extends IOApp.Simple {
         width = lines.head.length
         depth = lines.length - 1
         finders = lines.toVector.map(line => TreeFinder.from(line, width))
-        resultA = TreeFinder.findTrees(finders, depth, List((3, 1)))
-        resultB = TreeFinder.findTrees(finders, depth, slopesB)
+        resultA = TreeFinder.findTrees(finders, depth, List((3, 1))).head
+        resultB = TreeFinder.findTrees(finders, depth, slopesB).map(_.toLong).product // look out for overflow
         _ <- IO.println(s"Part A: encountered $resultA trees for right 3 down 1")
         _ <- IO.println(s"Part B: encountered $resultB")
 
@@ -51,14 +51,12 @@ object DayThree extends IOApp.Simple {
             if(treePos.nonEmpty) Trees(treePos, width) else Treeless
         }
 
-        def findTrees(finders: Vector[TreeFinder], depth: Int, slopes: List[(Int, Int)]): Long = {
-            val result = slopes.map {
+        def findTrees(finders: Vector[TreeFinder], depth: Int, slopes: List[(Int, Int)]): List[Int] =
+            slopes.map {
                 case (right, down) => mapPositions(right, down, depth).foldLeft(0) {
                     case (acc, (x, y)) => if (finders(y).isTreeAt(x)) acc + 1 else acc
                 }
-            }
-            result.map(_.toLong).product // gotta look out for that integer overflow
-        }
+            }        
     }
 
     def mapPositions(right: Int, down: Int, depth: Int): List[(Int, Int)] =
