@@ -1,3 +1,5 @@
+package util
+
 import cats.effect.IO
 import scala.io.Source
 

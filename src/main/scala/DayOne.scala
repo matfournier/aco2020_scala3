@@ -4,6 +4,7 @@ import cats.implicits._
 import java.io._
 import scala.io.Source
 import scala.annotation.tailrec
+import util.SimpleFileReader
 
 object DayOne extends IOApp.Simple {
 
@@ -20,8 +21,7 @@ object DayOne extends IOApp.Simple {
         @tailrec
         def go(input: List[Int]): Option[(Int, Int)] = {
             input match {
-                case x :: xs => xs.find(v => (x + v) == 2020)
-                .match {
+                case x :: xs => xs.find(v => (x + v) == 2020) match {
                     case Some(v) => Some(x, v)
                     case None => go(input.drop(1))
                 }

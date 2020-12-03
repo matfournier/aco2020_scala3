@@ -2,6 +2,8 @@ import cats.effect.{IO, IOApp}
 import cats.data._
 import cats.implicits._
 import scala.util.Try 
+import util.SimpleFileReader
+
 
 object DayTwoB extends IOApp.Simple {
 
