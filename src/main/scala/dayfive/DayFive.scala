@@ -14,6 +14,12 @@ object DayFive extends IOApp.Simple {
         maxId = seats.max 
         _ <- IO.println(s"max seatId: $maxId")
         _ <- IO.println(s"missing seat: ${findMissingSeat(seats)}")
+        _ <- IO.println(s"jk solution using binary")
+        parsedJK = lines.map(parseJK)
+        maxIdJK <- IO.println(parsedJK.max)
+        missingJK <- IO.println(
+            parsedJK.find(n => parsedJK.contains(n + 2) && !parsedJK.contains(n +1)).map(_ + 1))                      
+        - <- IO.println(s"$maxIdJK, $missingJK")
     } yield ()
 
     type Pair = (Int, Int)
@@ -61,5 +67,15 @@ object DayFive extends IOApp.Simple {
         Range(s.min, s.max).inclusive.toSet.diff(s.toSet).toList.head
 
 
+
+    // JK solution
+
+    def bin(s: String): Int = Integer.valueOf(s, 2)
+
+    def parseJK(raw: String) = 
+    raw
+        .map(Map('B' -> '1', 'R' -> '1').getOrElse(_, '0'))
+        .splitAt(7)
+        .bimap(bin, bin) match { case (row, column) => row * 8 + column }
   
 }
