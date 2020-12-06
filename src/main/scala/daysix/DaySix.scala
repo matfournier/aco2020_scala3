@@ -23,16 +23,6 @@ object DaySix extends IOApp.Simple {
         .sum
     
 
-        // LOL effffff
-    def from(lines: List[String]) = {
-        val (thing, last) = lines.foldLeft((List.empty[List[String]], List.empty[String])) {
-            case ((outer, inner), xs) => 
-                if (xs.isEmpty) 
-                    (outer :+ inner, Nil)
-                else 
-                    (outer, inner :+ xs)
-        }
-        (thing :+ last)
-    }   
-
+    def from(lines: List[String]) =
+        lines.mkString("\n").split("\n\n").map(_.split("\n").toList).toList
 }
