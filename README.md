@@ -1,5 +1,8 @@
 ## sbt project compiled with Dotty
 
+AOC 2020 using Scala3 + Cats + Cats-Effect 3
+
+
 ### Usage
 
 This is a normal sbt project, you can compile code with `sbt compile` and run it
