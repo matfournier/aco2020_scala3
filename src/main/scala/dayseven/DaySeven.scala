@@ -11,7 +11,6 @@ object DaySeven extends IOApp.Simple {
     override def run: IO[Unit] = for {
         lines <- SimpleFileReader.read("./src/main/resources/DaySeven.txt")
         parsedBags = lines.map(Bag.parse(_)).map(bag => (bag.colour, bag)).toMap
-        _ = println(parsedBags)
         solutionA = parsedBags.keys.count(b => contains(b, parsedBags))
         _ <- IO.println(solutionA)
         solutionB = count("shiny gold bag", parsedBags)
@@ -36,11 +35,11 @@ object DaySeven extends IOApp.Simple {
     case class Bag(colour: String, connectedTo: Map[String, Int])
 
     object Bag {
-        def parse(input: String): Bag = 
+        def parse(input: String): Bag = {
             val split = input.split("contain").toList
             val colour = split.head.replace("bags", "bag").trim()
             val rest = split.last
-            val map: Map[String, Int] = if(rest.contains("no other")) {
+            val contents: Map[String, Int] = if(rest.contains("no other")) {
                 Map()
             } else {
                 rest.split(",")
@@ -52,7 +51,8 @@ object DaySeven extends IOApp.Simple {
                 }).toMap
             }
 
-        Bag(colour, map)
+            Bag(colour, contents)
+        }
 
     }
 
